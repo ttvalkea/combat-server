@@ -28,10 +28,7 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-- task: DotNetCoreCLI@2
+- task: PublishPipelineArtifact@1
   inputs:
-    command: 'publish'
-    publishWebProjects: false
-    projects: '**/SignalRChatServer.csproj'
-    configuration: '$(buildConfiguration)'
-    zipAfterPublish: true
+    path: $(System.DefaultWorkingDirectory)/bin/WebApp
+    artifact: WebApp
