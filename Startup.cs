@@ -28,7 +28,7 @@ namespace SignalRChatServer
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy", builder => builder
-                .WithOrigins("http://localhost:4200")
+                .WithOrigins("http://localhost:4200", "https://tuomas-angular-chat.azurewebsites.net/")
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials());
