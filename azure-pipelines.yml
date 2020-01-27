@@ -30,5 +30,5 @@ steps:
 
 - task: PublishPipelineArtifact@1
   inputs:
-    path: $(System.DefaultWorkingDirectory)/WebApp
+    path: $(System.DefaultWorkingDirectory)/SignalRChatServer
     artifact: WebApp
