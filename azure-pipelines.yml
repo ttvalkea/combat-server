@@ -33,5 +33,5 @@ steps:
     command: 'publish'
     publishWebProjects: false
     projects: '**/SignalRChatServer.csproj'
-    arguments: '--configuration $(buildConfiguration) --output $(build.artifactStagingDirectory)'
+    configuration: '$(buildConfiguration)'
     zipAfterPublish: true
