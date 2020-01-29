@@ -28,7 +28,7 @@ namespace SignalRChatServer
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy", builder => builder
-                .WithOrigins("http://localhost:4200", "https://tuomas-angular-chat.azurewebsites.net", "http://tuomas-angular-chat.azurewebsites.net")
+                .WithOrigins("https://localhost:4200", "http://localhost:4200", "https://tuomas-angular-chat.azurewebsites.net", "http://tuomas-angular-chat.azurewebsites.net")
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials());
@@ -57,7 +57,7 @@ namespace SignalRChatServer
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<ChartHub>("/chart");
+                endpoints.MapHub<ChatHub>("/chat");
             });
         }
     }
