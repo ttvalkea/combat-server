@@ -28,7 +28,7 @@ namespace CombatServer
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy", builder => builder
-                .WithOrigins("https://localhost:4200", "http://localhost:4200", "https://tuomas-angular-chat.azurewebsites.net", "http://tuomas-angular-chat.azurewebsites.net")
+                .WithOrigins("https://localhost:4200", "http://localhost:4200", "https://tuomas-angular-combat.azurewebsites.net", "http://tuomas-angular-combat.azurewebsites.net")
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials());
