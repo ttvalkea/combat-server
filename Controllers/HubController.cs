@@ -1,14 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
-using System;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ChatController : ControllerBase
+public class HubController : ControllerBase
 {
-    private IHubContext<ChatHub> _hub;
+    private IHubContext<CombatHub> _hub;
 
-    public ChatController(IHubContext<ChatHub> hub)
+    public HubController(IHubContext<CombatHub> hub)
     {
         _hub = hub;
     }

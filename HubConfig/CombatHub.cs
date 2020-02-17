@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-public class ChatHub : Hub
+public class CombatHub : Hub
 {
     public async Task BroadcastChatMessage(string data) => await Clients.All.SendAsync("broadcastchatmessage", data);
     public async Task BroadcastConnectionAmountData(int data) => await Clients.All.SendAsync("broadcastconnectionamountdata", data);
