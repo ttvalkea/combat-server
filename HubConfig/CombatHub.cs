@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Timers;
 
 public class CombatHub : Hub
 {
@@ -10,7 +11,8 @@ public class CombatHub : Hub
     public async Task BroadcastFireballDataMessage(Fireball data) => await Clients.All.SendAsync("broadcastFireballDataMessage", data);
     public async Task BroadcastFireballHitPlayerMessage(Fireball fireball, Player player) => await Clients.All.SendAsync("broadcastFireballHitPlayerMessage", new FireballHitPlayerData(fireball, player));
     public async Task BroadcastGetObstacles(bool generateNewObstacles) => await Clients.All.SendAsync("broadcastGetObstacles", GetObstacles(generateNewObstacles));
-    
+
+    public async Task BroadcastNewTag(IHubCallerClients clients) => await clients.All.SendAsync("newTag", "no terve");
 
     public override Task OnConnectedAsync()
     {
@@ -43,5 +45,5 @@ public class CombatHub : Hub
         }
 
         return PersistingValues.Obstacles;
-    }
+    }    
 }
