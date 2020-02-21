@@ -9,24 +9,39 @@ public class CombatHub : Hub
     public async Task BroadcastConnectionAmountData(int data) => await Clients.All.SendAsync("broadcastconnectionamountdata", data);
     public async Task BroadcastPlayerDataMessage(Player data) => await Clients.All.SendAsync("broadcastPlayerDataMessage", data);
     public async Task BroadcastFireballDataMessage(Fireball data) => await Clients.All.SendAsync("broadcastFireballDataMessage", data);
-    public async Task BroadcastFireballHitPlayerMessage(Fireball fireball, Player player) => await Clients.All.SendAsync("broadcastFireballHitPlayerMessage", new FireballHitPlayerData(fireball, player));
-    public async Task BroadcastGetObstacles(bool generateNewObstacles) => await Clients.All.SendAsync("broadcastGetObstacles", GetObstacles(generateNewObstacles));
+    public async Task BroadcastFireballHitPlayerMessage(Fireball fireball, Player player)
+    {
+        await Clients.All.SendAsync("broadcastFireballHitPlayerMessage", new FireballHitPlayerData(fireball, player));
 
-    public async Task BroadcastNewTag(IHubCallerClients clients) => await clients.All.SendAsync("newTag", "no terve");
+        //The player who knocks out the tag player becomes the tag.
+        if (player.hitPoints <= 1 && player.id == PersistingValues.TagPlayerId)
+        {
+            await BroadcastPlayerBecomesTag(fireball.casterId);
+        }
+    }
+    public async Task BroadcastGetObstacles(bool generateNewObstacles) => await Clients.All.SendAsync("broadcastGetObstacles", GetObstacles(generateNewObstacles));
+    public async Task BroadcastPlayerHitNewTagItem(string playerId) {
+        await BroadcastPlayerBecomesTag(playerId);
+        PersistingValues.TagItem = new NewTagItem(0, 0, false);
+        await BroadcastNewTagItemData();
+    }
+    public async Task BroadcastPlayerBecomesTag(string playerId) {
+        PersistingValues.TagPlayerId = playerId;
+        await Clients.All.SendAsync("broadcastPlayerBecomesTag", playerId);
+    }
+    public async Task BroadcastNewTagItemData() => await Clients.All.SendAsync("newTag", PersistingValues.TagItem);   
 
     public override Task OnConnectedAsync()
     {
-        PersistingValues.NumberOfPlayers++;
-        Console.WriteLine(PersistingValues.NumberOfPlayers);
-        BroadcastConnectionAmountData(PersistingValues.NumberOfPlayers);
+        PersistingValues.IdsOfConnectedClients.Add(Context.ConnectionId);
+        BroadcastConnectionAmountData(PersistingValues.IdsOfConnectedClients.Count);
         return base.OnConnectedAsync();
     }
 
     public override Task OnDisconnectedAsync(Exception exception)
     {
-        PersistingValues.NumberOfPlayers--;
-        Console.WriteLine(PersistingValues.NumberOfPlayers);
-        BroadcastConnectionAmountData(PersistingValues.NumberOfPlayers);
+        PersistingValues.IdsOfConnectedClients.Remove(Context.ConnectionId);
+        BroadcastConnectionAmountData(PersistingValues.IdsOfConnectedClients.Count);
         return base.OnDisconnectedAsync(exception);
     }
 
@@ -35,11 +50,11 @@ public class CombatHub : Hub
         if (generateNewObstacles)
         {
             var rng = new Random();
-            var amount = rng.Next(3, 7);
+            var amount = rng.Next(3, 8);
             var obstacles = new List<Obstacle>();
             for (var i = 0; i < amount; i++)
             {
-                obstacles.Add(new Obstacle() { positionX = rng.Next(0, 50), positionY = rng.Next(0, 50), sizeX = rng.Next(3, 13), sizeY = rng.Next(3, 13), id = Utils.GetId() });
+                obstacles.Add(new Obstacle() { positionX = rng.Next(0, 65), positionY = rng.Next(0, 65), sizeX = rng.Next(3, 13), sizeY = rng.Next(3, 13), id = Utils.GetId() });
             }
             PersistingValues.Obstacles = obstacles;
         }

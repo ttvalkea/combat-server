@@ -31,7 +31,7 @@ public class HubController : ControllerBase
     private async void OnNewTagItemTimerEvent(Object source, ElapsedEventArgs e)
     {
         //Only sent once every ten seconds no matter the number of clients.
-        if (!PersistingValues.NewTagInfoSentThisCycle)
+        if (PersistingValues.IdsOfConnectedClients.Count > 0 && !PersistingValues.NewTagInfoSentThisCycle)
         {
             PersistingValues.NewTagInfoSentThisCycle = true;
             await SendNewTagPositionToAllClients();
@@ -41,10 +41,10 @@ public class HubController : ControllerBase
     private async Task SendNewTagPositionToAllClients()
     {
         var rng = new Random();
-        await _hub.Clients.All.SendAsync("newTag", new { 
-            x = rng.Next(1, 74),
-            y = rng.Next(1, 74)
-        });
+        var x = rng.Next(1, 74);
+        var y = rng.Next(1, 74);
+        PersistingValues.TagItem = new NewTagItem(x, y, true);
+        await _hub.Clients.All.SendAsync("newTag", PersistingValues.TagItem); 
     }
 
     public Timer GameTimer { get; set; }

@@ -7,7 +7,9 @@ using System.Timers;
 public static class PersistingValues
 {
     static PersistingValues() {
+        IdsOfConnectedClients = new List<string>();
         Obstacles = new List<Obstacle>();
+        TagPlayerId = "";
         StartNewTagInfoSentThisCycleResetTimer();
         NewTagInfoSentThisCycle = false;
         StartNewTagItemTimer();
@@ -19,14 +21,16 @@ public static class PersistingValues
     public static Timer NewTagItemTimer { get; set; }
     public static Timer NewTagInfoSentThisCycleResetTimer { get; set; }
     public static bool NewTagInfoSentThisCycle { get; set; }
+    public static NewTagItem TagItem { get; set; }
+    public static string TagPlayerId { get; set; }
     public static List<Obstacle> Obstacles { get; set; }
-    public static int NumberOfPlayers { get; set; }
+    public static List<string> IdsOfConnectedClients { get; set; }
 
 
     //Set up loops
     private static void StartNewTagItemTimer()
     {
-        NewTagItemTimer = new Timer(Constants.NEW_TAG_INTERVAL_MS);
+        NewTagItemTimer = new Timer(Constants.NEW_TAG_ITEM_SPAWN_INTERVAL_MS);
         NewTagItemTimer.AutoReset = true;
         NewTagItemTimer.Enabled = false;
     }
@@ -36,7 +40,7 @@ public static class PersistingValues
     }
     private static void StartNewTagInfoSentThisCycleResetTimer()
     {
-        NewTagInfoSentThisCycleResetTimer = new Timer(Constants.NEW_TAG_INTERVAL_MS);
+        NewTagInfoSentThisCycleResetTimer = new Timer(Constants.NEW_TAG_ITEM_SPAWN_INTERVAL_MS);
         NewTagInfoSentThisCycleResetTimer.AutoReset = true;
         NewTagInfoSentThisCycleResetTimer.Elapsed += OnNewTagInfoSentThisCycleResetTimerEvent;
         NewTagInfoSentThisCycleResetTimer.Enabled = true;
