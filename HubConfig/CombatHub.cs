@@ -55,7 +55,13 @@ public class CombatHub : Hub
             var obstacles = new List<Obstacle>();
             for (var i = 0; i < amount; i++)
             {
-                obstacles.Add(new Obstacle() { positionX = rng.Next(0, 65), positionY = rng.Next(0, 65), sizeX = rng.Next(3, 13), sizeY = rng.Next(3, 13), id = Utils.GetId() });
+                obstacles.Add(new Obstacle() { 
+                    positionX = rng.Next(Constants.OBSTACLE_POSITION_X_MIN, Constants.OBSTACLE_POSITION_X_MAX), 
+                    positionY = rng.Next(Constants.OBSTACLE_POSITION_Y_MIN, Constants.OBSTACLE_POSITION_Y_MAX), 
+                    sizeX = rng.Next(Constants.OBSTACLE_SIZE_MIN, Constants.OBSTACLE_SIZE_MAX), 
+                    sizeY = rng.Next(Constants.OBSTACLE_SIZE_MIN, Constants.OBSTACLE_SIZE_MAX), 
+                    id = Utils.GetId() 
+                });
             }
             PersistingValues.Obstacles = obstacles;
         }
