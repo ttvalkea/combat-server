@@ -8,6 +8,7 @@ using System.Timers;
 [ApiController]
 public class HubController : ControllerBase
 {
+    public Timer GameTimer { get; set; }
     private IHubContext<CombatHub> _hub;
 
     public HubController(IHubContext<CombatHub> hub)
@@ -40,12 +41,7 @@ public class HubController : ControllerBase
 
     private async Task SendNewTagPositionToAllClients()
     {
-        var rng = new Random();
-        var x = rng.Next(1, 74);
-        var y = rng.Next(1, 74);
-        PersistingValues.TagItem = new NewTagItem(x, y, true);
+        PersistingValues.TagItem = GameMechanics.GetNewTagItem();
         await _hub.Clients.All.SendAsync("newTag", PersistingValues.TagItem); 
-    }
-
-    public Timer GameTimer { get; set; }
+    }    
 }
