@@ -8,7 +8,7 @@ public static class GameMechanics
         if (generateNewObstacles)
         {
             var rng = new Random();
-            var amount = rng.Next(3, 8);
+            var amount = rng.Next(Constants.OBSTACLE_AMOUNT_MIN, Constants.OBSTACLE_AMOUNT_MAX);
             var obstacles = new List<Obstacle>();
             for (var i = 0; i < amount; i++)
             {

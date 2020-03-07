@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Timers;
 
 namespace CombatServer
 {
@@ -23,7 +21,7 @@ namespace CombatServer
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy", builder => builder
-                .WithOrigins("https://localhost:4200", "http://localhost:4200", "https://tuomas-angular-combat.azurewebsites.net", "http://tuomas-angular-combat.azurewebsites.net")
+                .WithOrigins(Constants.CORS_ALLOWED_URL_1, Constants.CORS_ALLOWED_URL_2, Constants.CORS_ALLOWED_URL_3, Constants.CORS_ALLOWED_URL_4)
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials());

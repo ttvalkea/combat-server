@@ -1,6 +1,4 @@
-using System;
-
-public class ItemBase
+public abstract class ItemBase
 {
     public string id { get; set; }
     public decimal positionX { get; set; }
