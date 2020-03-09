@@ -41,5 +41,10 @@ public class CombatHub : Hub
         PersistingValues.IdsOfConnectedClients.Remove(Context.ConnectionId);
         BroadcastConnectionAmountData(PersistingValues.IdsOfConnectedClients.Count);
         return base.OnDisconnectedAsync(exception);
-    }     
+    }
+
+    public async Task SendMessage(string user, string message)
+    {
+        await Clients.All.SendAsync("OnReceiveMessage", user, message);
+    }
 }
