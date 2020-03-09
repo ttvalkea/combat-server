@@ -3,9 +3,15 @@ public class FireballHitPlayerData
     public string playerId { get; set; }
     public string fireballId { get; set; }
 
-    public FireballHitPlayerData(Fireball fireball, Player player)
+    //public FireballHitPlayerData(Fireball fireball, Player player)
+    //{
+    //    fireballId = fireball.id;
+    //    playerId = player.id;
+    //}
+
+    public FireballHitPlayerData(string idOfFireball, string idOfPlayer)
     {
-        fireballId = fireball.id;
-        playerId = player.id;
+        fireballId = idOfFireball;
+        playerId = idOfPlayer;
     }
 }

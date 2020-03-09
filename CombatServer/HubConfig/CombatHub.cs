@@ -11,7 +11,7 @@ public class CombatHub : Hub
     public async Task BroadcastFireballDataMessage(Fireball data) => await Clients.All.SendAsync("broadcastFireballDataMessage", data);
     public async Task BroadcastFireballHitPlayerMessage(Fireball fireball, Player player)
     {
-        await Clients.All.SendAsync("broadcastFireballHitPlayerMessage", new FireballHitPlayerData(fireball, player));
+        await Clients.All.SendAsync("broadcastFireballHitPlayerMessage", new FireballHitPlayerData(fireball.id, player.id));
 
         //The player who knocks out the tag player becomes the tag.
         if (player.hitPoints <= 1 && player.id == PersistingValues.TagPlayerId)
@@ -41,10 +41,5 @@ public class CombatHub : Hub
         PersistingValues.IdsOfConnectedClients.Remove(Context.ConnectionId);
         BroadcastConnectionAmountData(PersistingValues.IdsOfConnectedClients.Count);
         return base.OnDisconnectedAsync(exception);
-    }
-
-    public async Task SendMessage(string user, string message)
-    {
-        await Clients.All.SendAsync("OnReceiveMessage", user, message);
     }
 }
